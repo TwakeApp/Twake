@@ -120,6 +120,7 @@
     "channels",
     "notifications",
     "messages",
-    "files"
+    "files",
+    "applications"
   ]
 }
