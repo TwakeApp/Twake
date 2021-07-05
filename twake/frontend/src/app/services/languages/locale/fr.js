@@ -1663,7 +1663,7 @@ export default {
   'scenes.apps.messages.message.show_responses_button': 'Afficher toutes les réponses',
   'scenes.apps.messages.message.starred': 'Étoilé',
   'scenes.apps.messages.message.types.first_channel_message_text':
-    "C'est le premier message du canal",
+    'Ceci est le premier message de la chaîne',
   'scenes.apps.messages.message.types.first_message_text': "C'est le premier message",
   'scenes.apps.messages.messageslist.connected_to': 'Connecté à : ',
   'scenes.apps.messages.messageslist.current_visible_id': 'Identifiant actuel visible : ',
