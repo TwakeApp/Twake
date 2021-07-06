@@ -16,6 +16,7 @@ import { ChannelResource } from 'app/models/Channel';
 import LockedHistoryBanner from 'app/components/LockedFeaturesComponents/LockedHistoryBanner/LockedHistoryBanner';
 import InitService from 'app/services/InitService';
 import _ from 'lodash';
+import FirstMessage from './Message/Parts/FirstMessage/FirstMessage';
 
 const START_INDEX = 100000;
 const DEFAULT_PAGE_SIZE = 25;
@@ -509,6 +510,10 @@ export default class MessagesList extends React.Component<Props, State> {
                       }
                     />
                   );
+
+                if (message.channel_id && message?.hidden_data.type === 'init_channel') {
+                  return <FirstMessage channelId={message.channel_id} />;
+                }
 
                 return (
                   <Message

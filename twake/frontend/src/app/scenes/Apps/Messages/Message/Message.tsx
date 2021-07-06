@@ -117,10 +117,6 @@ export default class MessageComponent extends Component<Props> {
       return <Thread loading />;
     }
 
-    if (message?.hidden_data?.type === 'init_channel') {
-      return <FirstMessage channelId={message.channel_id || ''} />;
-    }
-
     if (message?.hidden_data?.type === 'activity') {
       const activity = message.hidden_data.activity as ActivityType;
       return <ActivityMessage activity={activity} />;
