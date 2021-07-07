@@ -2,7 +2,6 @@ import React, { createRef, RefObject } from 'react';
 import { IndexLocationWithAlign, ListRange, Virtuoso, VirtuosoHandle } from 'react-virtuoso';
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-
 import Logger from 'app/services/Logger';
 import Message from './Message/MessageAndTimeSeparator';
 import GoToBottom from './Parts/GoToBottom';
@@ -474,15 +473,6 @@ export default class MessagesList extends React.Component<Props, State> {
             style={{ width: '100%', height: '100%' }}
             className={this.state.showBottomButton ? 'messages-list scrolled-up' : 'messages-list'}
           >
-            {this.props.threadId && (
-              <MessageComponent
-                noReplies
-                threadHeader={this.props.threadId}
-                key={this.props.threadId}
-                messageId={this.props.threadId}
-                collectionKey={this.props.collectionKey}
-              />
-            )}
             <Virtuoso
               ref={this.virtuosoRef}
               scrollerRef={ref => (this.scrollerRef = ref)}
@@ -514,6 +504,17 @@ export default class MessagesList extends React.Component<Props, State> {
                 if (message.channel_id && message?.hidden_data.type === 'init_channel') {
                   return <FirstMessage channelId={message.channel_id} />;
                 }
+
+                if (message?.hidden_data.type === 'init_thread')
+                  return (
+                    <MessageComponent
+                      noReplies
+                      threadHeader={message?.hidden_data?.thread_id}
+                      key={message?.hidden_data?.thread_id}
+                      messageId={message?.hidden_data?.thread_id}
+                      collectionKey={this.props.collectionKey}
+                    />
+                  );
 
                 return (
                   <Message

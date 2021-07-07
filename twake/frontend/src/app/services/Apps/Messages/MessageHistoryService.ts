@@ -32,6 +32,22 @@ class MessageHistoryService {
       channel_id,
     };
   }
+
+  getInitThreadMessageObject({
+    thread_id,
+    channel_id,
+  }: {
+    thread_id: string;
+    channel_id: string;
+  }): Message {
+    return {
+      id: thread_id,
+      message_type: 2,
+      hidden_data: { type: 'init_thread', thread_id },
+      creation_date: 0,
+      channel_id,
+    };
+  }
 }
 
 export default new MessageHistoryService();

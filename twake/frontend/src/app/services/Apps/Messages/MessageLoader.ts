@@ -321,8 +321,7 @@ export class MessageLoader extends Observable implements FeedLoader<Message> {
 
     if (!this.threadId) {
       let lastParentId = '';
-      const initChannelMessage = MessageHistoryService.getInitChannelMessageObject(this.channel.id);
-      messages = [initChannelMessage, ...messages].filter(message => {
+      messages = messages.filter(message => {
         if (message.parent_message_id) {
           return lastParentId &&
             lastParentId !== message.parent_message_id &&
@@ -334,6 +333,17 @@ export class MessageLoader extends Observable implements FeedLoader<Message> {
         }
         return true;
       });
+    }
+
+    if (this.threadId) {
+      const initThreadMessage = MessageHistoryService.getInitThreadMessageObject({
+        thread_id: this.threadId,
+        channel_id: this.channel.id,
+      });
+      messages = [initThreadMessage, ...messages];
+    } else {
+      const initChannelMessage = MessageHistoryService.getInitChannelMessageObject(this.channel.id);
+      messages = [...(this.topHasBeenReached ? [initChannelMessage] : []), ...messages];
     }
 
     return messages;
