@@ -48,7 +48,7 @@ export default ({ selected }: { selected: boolean }): JSX.Element => {
   if (selected) {
     MainViewService.select(MainViewService.getId(), {
       collection: MainViewService.getConfiguration().collection,
-      app: 'messages',
+      app: { simple_name: 'messages' },
       context: null,
       hasTabs: MainViewService.getConfiguration().hasTabs,
     });

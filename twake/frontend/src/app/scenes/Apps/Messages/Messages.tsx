@@ -11,11 +11,12 @@ import { MessageListService } from 'app/services/Apps/Messages/MessageListServic
 import MessageListServiceFactory from 'app/services/Apps/Messages/MessageListServiceFactory';
 import RouterServices from 'app/services/RouterService';
 import './Messages.scss';
+import { ViewConfiguration } from 'app/services/AppView/AppViewService';
 
 type Props = {
   channel: ChannelResource;
   tab?: any;
-  options: any;
+  options: ViewConfiguration;
 };
 
 type State = {

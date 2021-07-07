@@ -3,11 +3,12 @@ import React from 'react';
 import './Messages.scss';
 import { ChannelResource } from 'app/models/Channel';
 import Messages from './Messages';
+import { ViewConfiguration } from 'app/services/AppView/AppViewService';
 
 type Props = {
   channel: ChannelResource;
   tab?: any;
-  options: any;
+  options: ViewConfiguration;
 };
 
 /**

@@ -54,7 +54,7 @@ export default class MessageComponent extends Component<Props> {
       [props.messageId || this.message?.front_id],
       () => {
         const length = this.getResponses().length;
-        if (length != savedLength) {
+        if (length !== savedLength) {
           savedLength = length;
           return true;
         }
@@ -157,6 +157,7 @@ export default class MessageComponent extends Component<Props> {
           {!this.props.noReplies && responses.length > max_responses && (
             <ThreadSection gradient>
               <div className="message-content">
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a
                   onClick={() => {
                     MessagesService.showMessage(message?.id);
@@ -208,6 +209,7 @@ export default class MessageComponent extends Component<Props> {
           {!showInput && !this.props.noReplies && !message.parent_message_id && (
             <ThreadSection compact>
               <div className="message-content">
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a
                   href="#"
                   onClick={() => this.messageEditorService.openEditor(message?.id || '', '')}
