@@ -1,0 +1,64 @@
+{
+    "name": "@twake/twake-backend-preview",
+    "version": "1.0.0",
+    "description": "Twake backend preview ",
+    "main": "src/server.js",
+    "scripts": {
+        "build": "npm run build:clean && npm run build:ts && npm run build:copy-assets",
+        "build:ts": "tsc",
+        "build:clean": "rimraf ./dist",
+        "dev": "tsc-watch --project . --noClear --outDir ./dist --onSuccess \"nodemon ./dist/server.js\" | pino-pretty",
+        "dev:debug": "tsc-watch --project . --noClear --outDir ./dist --onSuccess \"nodemon --inspect=0.0.0.0 ./dist/server.js\" | pino-pretty",
+        "start": "npm run serve",
+        "serve": "node --max-http-header-size=30000 dist/server.js",
+        "serve:watch": "nodemon dist/server.js | pino-pretty",
+        "serve:debug": "nodemon --inspect dist/server.js | pino-pretty",
+        "test": "jest --forceExit --coverage --verbose",
+        "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
+        "watch-node": "nodemon dist/server.js",
+        "watch-test": "npm run test -- --watchAll",
+        "watch-ts": "tsc -w"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/TwakeApp/twake-backend.git"
+    },
+    "author": "Twake",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/TwakeApp/twake-backend/issues"
+    },
+    "homepage": "https://github.com/TwakeApp/twake-backend#readme",
+    "devDependencies": {
+        "@types/busboy": "^0.2.4",
+        "@types/chai": "^4.2.12",
+        "@types/eslint": "^7.2.3",
+        "@types/fastify-multipart": "^0.7.0",
+        "@types/jest": "^26.0.14",
+        "@types/node": "^14.11.2",
+        "@types/sharp": "^0.28.3",
+        "@types/supertest": "2.0.4",
+        "@typescript-eslint/eslint-plugin": "^4.2.0",
+        "@typescript-eslint/parser": "^4.2.0",
+        "chai": "^4.2.0",
+        "concurrently": "5.3.0",
+        "eslint": "^7.10.0",
+        "jest": "^26.4.2",
+        "nodemon": "2.0.4",
+        "supertest": "4.0.2",
+        "ts-jest": "^26.4.0",
+        "ts-node": "^9.0.0",
+        "tsc-watch": "^4.2.9",
+        "typescript": "^4.0.3"
+    },
+    "dependencies": {
+        "@types/pdf-image": "^2.0.1",
+        "fastify": "3.9.2",
+        "fastify-multipart": "^4.0.3",
+        "fastify-plugin": "2.3.4",
+        "pdf-image": "^2.0.0",
+        "sharp": "^0.28.3",
+        "unoconv": "^0.1.2",
+        "unoconv-promise": "^1.0.8"
+    }
+}
