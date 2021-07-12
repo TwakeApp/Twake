@@ -103,7 +103,7 @@
     "@typescript-eslint/parser": "^4.27.0",
     "anchorme": "1.1.2",
     "animated-scroll-to": "^2.0.12",
-    "antd": "^4.16.1",
+    "antd": "^4.16.3",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",
