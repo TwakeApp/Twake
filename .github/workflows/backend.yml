@@ -15,9 +15,9 @@ jobs:
       - name: unit-test
         run: cd twake && docker-compose -f docker-compose.yml.dist.tests run node npm run test:unit
       - name: e2e-mongo-test
-        run: cd twake && docker-compose -f docker-compose.yml.dist.tests run -e DB_DRIVER=mongodb node npm run test:e2e
+        run: cd twake && docker-compose -f docker-compose.yml.dist.tests run -e SEARCH_DRIVER=mongodb -e DB_DRIVER=mongodb node npm run test:e2e
       - name: e2e-cassandra-test
-        run: cd twake && docker-compose -f docker-compose.yml.dist.tests up -d scylladb && sleep 60 && docker-compose -f docker-compose.yml.dist.tests run -e DB_DRIVER=cassandra node npm run test:e2e
+        run: cd twake && docker-compose -f docker-compose.yml.dist.tests up -d scylladb elasticsearch && sleep 60 && docker-compose -f docker-compose.yml.dist.tests run -e SEARCH_DRIVER=elasticsearch -e DB_DRIVER=cassandra node npm run test:e2e
   build:
     runs-on: ubuntu-20.04
     steps:

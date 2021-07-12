@@ -17,7 +17,6 @@ import { FindOptions } from "../../repository/repository";
 import { ListResult, Pagination } from "../../../../../../framework/api/crud-service";
 import { Paginable } from "../../../../../../framework/api/crud-service";
 import { buildSelectQuery } from "./query-builder";
-import Search from "./search";
 
 export { CassandraPagination } from "./pagination";
 
@@ -42,14 +41,6 @@ export interface CassandraConnectionOptions {
    * Delay in ms between the retries. The delay is growing each time a retry fails like delay = retryCount * delay
    */
   delay?: number;
-
-  /**
-   * Enable it to use elasticsearch as search backend
-   */
-  elasticsearch: {
-    endpoint: string;
-    flushInterval?: number;
-  };
 }
 
 export class CassandraConnector extends AbstractConnector<
@@ -57,7 +48,6 @@ export class CassandraConnector extends AbstractConnector<
   cassandra.Client
 > {
   private client: cassandra.Client;
-  private searchClient: Search | null;
   private keyspaceExists = false;
 
   getClient(): cassandra.Client {
@@ -157,11 +147,6 @@ export class CassandraConnector extends AbstractConnector<
       return this;
     }
 
-    if (this.options.elasticsearch && this.options.elasticsearch.endpoint) {
-      this.searchClient = new Search(this.options.elasticsearch);
-      this.searchClient.connect();
-    }
-
     // Environment variable format is comma separated string
     const contactPoints =
       typeof this.options.contactPoints === "string"
@@ -205,10 +190,6 @@ export class CassandraConnector extends AbstractConnector<
     columns: { [name: string]: ColumnDefinition },
   ): Promise<boolean> {
     await this.waitForKeyspace(this.options.delay, this.options.retries);
-
-    if (this.searchClient) {
-      this.searchClient.createIndex(entity);
-    }
 
     let result = true;
 
@@ -393,10 +374,6 @@ export class CassandraConnector extends AbstractConnector<
         );
       });
 
-      if (this.searchClient) {
-        this.searchClient.upsert(entities);
-      }
-
       Promise.all(promises).then(resolve);
     });
   }
@@ -443,10 +420,6 @@ export class CassandraConnector extends AbstractConnector<
           }),
         );
       });
-
-      if (this.searchClient) {
-        this.searchClient.remove(entities);
-      }
 
       Promise.all(promises).then(resolve);
     });

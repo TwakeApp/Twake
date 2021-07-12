@@ -1,8 +1,9 @@
+import { localEventBus } from "../../../../../../../core/platform/framework/pubsub";
 import { logger } from "../../../../../../../core/platform/framework";
 import { ListResult, Pagination } from "../../../../../framework/api/crud-service";
 import { Connector } from "../connectors";
 import Manager from "../manager";
-import { EntityTarget } from "../types";
+import { DatabaseTableCreatedEvent, EntityTarget } from "../types";
 import { getEntityDefinition } from "../utils";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -27,9 +27,9 @@ describe("The /workspaces API", () => {
     await testDbService.createWorkspace(ws1pk);
     await testDbService.createWorkspace(ws2pk);
     await testDbService.createUser([ws0pk, ws1pk]);
-    await testDbService.createUser([ws2pk], "admin");
-    await testDbService.createUser([ws2pk], undefined, "admin");
-    await testDbService.createUser([], "guest");
+    await testDbService.createUser([ws2pk], { companyRole: "admin" });
+    await testDbService.createUser([ws2pk], { companyRole: undefined, workspaceRole: "admin" });
+    await testDbService.createUser([], { companyRole: "guest" });
     ends();
   });
 

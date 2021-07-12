@@ -1,5 +1,6 @@
 import { merge } from "lodash";
 import { Column, Entity } from "../../../core/platform/services/database/services/orm/decorators";
+import search from "./user.search";
 
 export const TYPE = "user";
 
@@ -7,6 +8,7 @@ export const TYPE = "user";
   primaryKey: [["id"], "email_canonical"],
   globalIndexes: [["email_canonical"]],
   type: TYPE,
+  search,
 })
 export default class User {
   @Column("id", "uuid")
@@ -87,6 +89,12 @@ export default class User {
 
   @Column("thumbnail_id", "timeuuid")
   thumbnail_id: string;
+
+  @Column("cache", "encoded_string")
+  cache: null | {
+    companies: string[];
+    workspaces: string[];
+  };
 
   constructor(id?: string) {
     this.id = id;

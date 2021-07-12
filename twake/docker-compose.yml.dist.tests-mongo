@@ -1,0 +1,37 @@
+version: "2"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    ports:
+      - 5672:5672
+      - 15672:15672
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - 27017:27017
+  node:
+    image: twaketech/twake-node:test
+    build:
+      context: ./backend/node
+      dockerfile: ../../docker/twake-node/Dockerfile.test
+      #target is not supported in compose v2 file
+      #target: test
+    environment:
+      - NODE_ENV=test
+      - DB_DRIVER
+      - PUBSUB_URLS=amqp://admin:admin@rabbitmq:5672
+      - LOG_LEVEL=debug
+    volumes:
+      - ./backend/node:/usr/src/app
+      - ./docker-data/documents/:/storage/
+    depends_on:
+      - mongo
+      - rabbitmq
+    links:
+      - mongo
+      - rabbitmq

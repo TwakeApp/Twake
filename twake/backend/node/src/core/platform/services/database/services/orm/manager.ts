@@ -5,6 +5,8 @@ import { Connector } from "./connectors";
 import { getEntityDefinition, fromMongoDbOrderable, unwrapPrimarykey } from "./utils";
 import { v4 as uuidv4, v1 as uuidv1 } from "uuid";
 import { logger } from "../../../../framework";
+import { DatabaseEntitiesRemovedEvent, DatabaseEntitiesSavedEvent } from "./types";
+import { localEventBus } from "../../../../framework/pubsub";
 
 export default class EntityManager<EntityType extends Record<string, any>> {
   private toPersist: EntityType[] = [];
@@ -76,6 +78,14 @@ export default class EntityManager<EntityType extends Record<string, any>> {
   }
 
   public async flush(): Promise<this> {
+    localEventBus.publish("database:entities:saved", {
+      entities: this.toPersist.map(e => _.cloneDeep(e)),
+    } as DatabaseEntitiesSavedEvent);
+
+    localEventBus.publish("database:entities:saved", {
+      entities: this.toRemove.map(e => _.cloneDeep(e)),
+    } as DatabaseEntitiesRemovedEvent);
+
     await this.connector.upsert(this.toPersist);
     await this.connector.remove(this.toRemove);
 

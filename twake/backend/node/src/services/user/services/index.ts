@@ -10,9 +10,13 @@ import { getService as getCompanyService } from "./companies";
 import { getService as getExternalService } from "./external_links";
 import { getService as getWorkspaceService } from "../../workspaces/services/workspace";
 import { WorkspaceServiceAPI } from "../../workspaces/api";
+import { SearchServiceAPI } from "../../../core/platform/services/search/api";
 
-export function getService(databaseService: DatabaseServiceAPI): UserServiceAPI {
-  return new Service(databaseService);
+export function getService(
+  databaseService: DatabaseServiceAPI,
+  searchService: SearchServiceAPI,
+): UserServiceAPI {
+  return new Service(databaseService, searchService);
 }
 
 class Service implements UserServiceAPI {
@@ -22,8 +26,8 @@ class Service implements UserServiceAPI {
   external: UserExternalLinksServiceAPI;
   workspaces: WorkspaceServiceAPI;
 
-  constructor(databaseService: DatabaseServiceAPI) {
-    this.users = getUserService(databaseService);
+  constructor(databaseService: DatabaseServiceAPI, searchService: SearchServiceAPI) {
+    this.users = getUserService(databaseService, searchService);
     this.external = getExternalService(databaseService);
     this.companies = getCompanyService(databaseService);
     this.workspaces = getWorkspaceService(databaseService);

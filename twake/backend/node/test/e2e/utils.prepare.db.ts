@@ -71,26 +71,28 @@ export class TestDbService {
 
   async createUser(
     workspacesPk?: Array<WorkspacePrimaryKey>,
-    companyRole?: "member" | "admin" | "guest",
-    workspaceRole?: "member" | "admin",
-    email?: string,
+    options: {
+      companyRole?: "member" | "admin" | "guest";
+      workspaceRole?: "member" | "admin";
+      firstName?: string;
+      lastName?: string;
+      email?: string;
+      username?: string;
+    } = {},
   ): Promise<User> {
     const user = new User();
     const random = this.rand();
-    user.username_canonical = `test${random}`;
-    user.first_name = `test${random}_first_name`;
-    user.last_name = `test${random}_last_name`;
-
-    if (email) {
-      user.email_canonical = email;
-    }
+    user.username_canonical = options.username || `test${random}`;
+    user.first_name = options.firstName || `test${random}_first_name`;
+    user.last_name = options.lastName || `test${random}_last_name`;
+    user.email_canonical = options.email || `test${random}@twake.app`;
     const createdUser = await this.userService.users.create(user);
     this.users.push(createdUser.entity);
     await this.userService.companies.addUserInCompany(this.company, createdUser.entity);
     await this.userService.companies.setUserRole(
       { id: this.company.id },
       { id: createdUser.entity.id },
-      companyRole ? companyRole : "member",
+      options.companyRole ? options.companyRole : "member",
     );
 
     if (workspacesPk && workspacesPk.length) {
@@ -98,7 +100,7 @@ export class TestDbService {
         await this.userService.workspaces.addUser(
           workspacePk,
           { id: createdUser.entity.id },
-          workspaceRole ? workspaceRole : "member",
+          options.workspaceRole ? options.workspaceRole : "member",
         );
         const wsContainer = this.workspacesMap.get(workspacePk.id);
         wsContainer.users.push(createdUser.entity);

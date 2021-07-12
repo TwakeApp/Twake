@@ -1,5 +1,9 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { ExecutionContext, Pagination } from "../../../core/platform/framework/api/crud-service";
+import {
+  ExecutionContext,
+  ListResult,
+  Pagination,
+} from "../../../core/platform/framework/api/crud-service";
 
 import { CrudController } from "../../../core/platform/services/webserver/types";
 import {
@@ -129,11 +133,20 @@ export class UsersCrudController
 
     const userIds = request.query.user_ids ? request.query.user_ids.split(",") : [];
 
-    const users = await this.service.list(
-      new Pagination(request.query.page_token, request.query.limit),
-      { userIds },
-      context,
-    );
+    let users: ListResult<User>;
+    if (request.query.search) {
+      users = await this.service.search(
+        new Pagination(request.query.page_token, request.query.limit),
+        { search: request.query.search, companyId: request.query.search_company_id },
+        context,
+      );
+    } else {
+      users = await this.service.list(
+        new Pagination(request.query.page_token, request.query.limit),
+        { userIds },
+        context,
+      );
+    }
 
     const resUsers = await Promise.all(
       users.getEntities().map(user => this.formatUser(user, request.query.include_companies)),

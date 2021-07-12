@@ -55,6 +55,9 @@
       }
     }
   },
+  "search": {
+    "type": "SEARCH_DRIVER"
+  },
   "pubsub": {
     "type": "PUBSUB_TYPE",
     "amqp": {

@@ -22,6 +22,7 @@
     "test": "jest --forceExit --coverage --verbose --detectOpenHandles --maxWorkers=1 | pino-pretty",
     "test:watch": "npm run test -- --watchAll | pino-pretty",
     "test:e2e": "jest test/e2e --forceExit --coverage --verbose --detectOpenHandles --maxWorkers=1 --testTimeout=50000",
+    "test:e2e:romaric": "jest test/e2e/users --forceExit --coverage --detectOpenHandles --verbose=false --maxWorkers=1 --testTimeout=50000",
     "test:unit": "jest test/unit --forceExit --coverage --verbose --detectOpenHandles --maxWorkers=1",
     "test:unit:watch": "npm run test:unit -- --watchAll | pino-pretty",
     "kill": "kill $(lsof -t -i:3000) | exit 0"
