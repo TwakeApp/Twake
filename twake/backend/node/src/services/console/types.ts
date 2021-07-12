@@ -2,6 +2,7 @@ import { Observable } from "rxjs";
 import Company from "../user/entities/company";
 import CompanyUser from "../user/entities/company_user";
 import { CompanyUserRole } from "../user/web/types";
+import { ExecutionContext } from "../../core/platform/framework/api/crud-service";
 
 export interface CreateConsoleCompany {
   code: string;
@@ -122,4 +123,47 @@ export type ConsoleOptions = {
   client: string;
   secret: string;
   url: string;
+  public_key?: string;
 };
+
+export type ConsoleHookUser = {
+  _id: string;
+  roles: [{ targetCode: string; roleCode: CompanyUserRole }];
+  email: string;
+  name: string; // backward compatible?
+  firstName: string;
+  lastName: string;
+  isVerified: boolean;
+  preference: {
+    locale: string;
+    timeZone: number;
+  };
+  avatar: {
+    type: string;
+    value: string;
+  };
+};
+
+export type ConsoleHookBodyContent = {
+  company: { code: string };
+  user: ConsoleHookUser;
+};
+
+export type ConsoleHookBody = {
+  type: string;
+  content: ConsoleHookBodyContent;
+  signature: string;
+};
+
+export class ConsoleHookQueryString {
+  secret: string;
+}
+
+export class ConsoleHookResponse {
+  success?: boolean;
+  error?: string;
+}
+
+export interface ConsoleExecutionContext extends ExecutionContext {
+  options: ConsoleOptions;
+}

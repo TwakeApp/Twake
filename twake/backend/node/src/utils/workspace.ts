@@ -1,5 +1,5 @@
 import UserServiceAPI from "../services/user/api";
-import { Workspace, User } from "./types";
+import { User, Workspace } from "./types";
 import Company from "../services/user/entities/company";
 import CompanyUser from "../services/user/entities/company_user";
 import WorkspaceUser from "../services/workspaces/entities/workspace_user";

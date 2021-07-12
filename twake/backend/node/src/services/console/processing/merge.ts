@@ -21,6 +21,7 @@ import {
   CompanyCreatedStreamObject,
   CompanyReport,
   ConsoleOptions,
+  ConsoleType,
   CreatedConsoleCompany,
   CreatedConsoleUser,
   MergeProgress,
@@ -36,6 +37,8 @@ import { ConsoleRemoteClient } from "../clients/remote";
 import { ConsoleServiceClient } from "../client-interface";
 import { DatabaseServiceAPI } from "../../../core/platform/services/database/api";
 import { CompanyUserRole } from "../../user/web/types";
+import { ConsoleServiceAPI } from "../api";
+import { getService as getConsoleService } from "../service";
 
 const logger = getLogger("console.process.merge");
 
@@ -50,7 +53,9 @@ export class MergeProcess {
     private linkExternal: boolean = true,
     consoleClientOptions: ConsoleOptions,
   ) {
-    this.client = new ConsoleRemoteClient(consoleClientOptions, dryRun);
+    const consoleService = getConsoleService(null, null, "remote", consoleClientOptions);
+
+    this.client = new ConsoleRemoteClient(consoleService, dryRun);
   }
 
   merge(concurrent: number = 1): MergeProgress {

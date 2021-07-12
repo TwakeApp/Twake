@@ -9,7 +9,7 @@ class StaticConsoleClientFactory {
     const type: ConsoleType = consoleInstance.consoleType;
     switch (type) {
       case "remote":
-        return new ConsoleRemoteClient(consoleInstance.consoleOptions, false);
+        return new ConsoleRemoteClient(consoleInstance, false);
       case "internal":
         return new ConsoleInternalClient(consoleInstance);
       default:

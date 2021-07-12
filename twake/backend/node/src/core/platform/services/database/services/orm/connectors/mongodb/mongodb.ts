@@ -3,7 +3,7 @@ import { UpsertOptions } from "..";
 import { ListResult, Paginable, Pagination } from "../../../../../../framework/api/crud-service";
 import { FindOptions } from "../../repository/repository";
 import { ColumnDefinition, EntityDefinition, ObjectType } from "../../types";
-import { getEntityDefinition, unwrapPrimarykey } from "../../utils";
+import { getEntityDefinition, unwrapIndexes, unwrapPrimarykey } from "../../utils";
 import { AbstractConnector } from "../abstract-connector";
 import { buildSelectQuery } from "./query-builder";
 import { transformValueFromDbString, transformValueToDbString } from "./typeTransforms";
@@ -169,7 +169,11 @@ export class MongoConnector extends AbstractConnector<MongoConnectionOptions, mo
     const { columnsDefinition, entityDefinition } = getEntityDefinition(instance);
 
     const pk = unwrapPrimarykey(entityDefinition);
-    if (Object.keys(filters).some(key => pk.indexOf(key) < 0)) {
+    const indexes = unwrapIndexes(entityDefinition);
+    if (
+      Object.keys(filters).some(key => pk.indexOf(key) < 0) &&
+      Object.keys(filters).some(key => indexes.indexOf(key) < 0)
+    ) {
       //Filter not in primary key
       throw Error(
         "All filter parameters must be defined in entity primary key, got: " +
@@ -190,7 +194,7 @@ export class MongoConnector extends AbstractConnector<MongoConnectionOptions, mo
       options,
     );
 
-    let sort: any = {};
+    const sort: any = {};
     for (const key of entityDefinition.options.primaryKey.slice(1)) {
       const defaultOrder =
         (columnsDefinition[key as string].options.order || "ASC") === "ASC" ? 1 : -1;

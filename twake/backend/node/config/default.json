@@ -11,11 +11,12 @@
     }
   },
   "console": {
-    "type": "internal",
+    "type": "remote",
     "remote": {
       "client": "",
-      "secret": "",
-      "url": "url"
+      "secret": "12345678",
+      "url": "https://some-remote-console-url/",
+      "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA9eZACyBB6HtW7QAxv6Dq\nhy0YJ8zaIhpfGkOiw//XOBefiFT/YD8RptuoWkjFtmfXaCXk7nL1fLMkFW3cHPc9\nDVITYRRtUS7I9Pnj4KbgXyr/rsxCAq0XnT+8LJlgt+ytTZhmfi8zttaHriztC9/Z\nDZPqrKSZ6qsfDyH1JnkOgw5BClvydCEnjrATnrSoiQtp+ReBZIn4dQatk7BX1vU8\n+O4XywCpDVMqLpQW6l/8VYlIZYRW+fbMYaDHrAi/1SX+zpky768lwVv01AmBbLAG\nV10ljjs3NpPl9lV90LJSnwh7Jwju+SPhTxXfWLRVipWh3qt+mR5WMZ2KqUXHYsc4\nYwIDAQAB\n-----END PUBLIC KEY-----"
     },
     "internal": {}
   },

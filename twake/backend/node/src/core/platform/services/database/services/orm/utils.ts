@@ -3,6 +3,7 @@ import _ from "lodash";
 import { FindOptions } from "./repository/repository";
 import { ColumnDefinition, EntityDefinition, ObjectType } from "./types";
 import { v1 as uuidv1 } from "uuid";
+import { flatten } from "lodash";
 
 export function getEntityDefinition(
   instance: any,
@@ -26,6 +27,13 @@ export function unwrapPrimarykey(entityDefinition: EntityDefinition): string[] {
     ...(initial as string[]),
   ];
   return primaryKey;
+}
+
+export function unwrapIndexes(entityDefinition: EntityDefinition): string[] {
+  const indexes = entityDefinition.options.globalIndexes;
+  if (!indexes) return [];
+
+  return flatten(entityDefinition.options.globalIndexes);
 }
 
 export function secureOperators<Entity>(
@@ -73,7 +81,7 @@ export function secureOperators<Entity>(
   return findOptions;
 }
 
-let microCounter = 0; //We do not really use nanotime, our goal is to ensure unicity first.
+const microCounter = 0; //We do not really use nanotime, our goal is to ensure unicity first.
 
 /**
  * Build uuid from nanotime
@@ -84,8 +92,8 @@ export function fromMongoDbOrderable(orderable: string) {
   if (!orderable) {
     return null;
   }
-  let uuid_arr = orderable.split("-");
-  let timeuuid = [uuid_arr[2], uuid_arr[1], uuid_arr[0], uuid_arr[3], uuid_arr[4]].join("-");
+  const uuid_arr = orderable.split("-");
+  const timeuuid = [uuid_arr[2], uuid_arr[1], uuid_arr[0], uuid_arr[3], uuid_arr[4]].join("-");
   return timeuuid;
 }
 
@@ -98,7 +106,7 @@ export function toMongoDbOrderable(timeuuid?: string): string {
   if (!timeuuid) {
     return null;
   }
-  let uuid_arr = timeuuid.split("-");
-  let time_str = [uuid_arr[2], uuid_arr[1], uuid_arr[0], uuid_arr[3], uuid_arr[4]].join("-");
+  const uuid_arr = timeuuid.split("-");
+  const time_str = [uuid_arr[2], uuid_arr[1], uuid_arr[0], uuid_arr[3], uuid_arr[4]].join("-");
   return time_str;
 }

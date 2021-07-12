@@ -48,6 +48,11 @@ export const transformValueToDbString = (
     }
     return v;
   }
+
+  if (type === "twake_boolean") {
+    return Boolean(v);
+  }
+
   return v || "";
 };
 
@@ -75,6 +80,9 @@ export const transformValueFromDbString = (v: any, type: string, options: any = 
     } catch (err) {
       return null;
     }
+  }
+  if (type === "twake_boolean") {
+    return Boolean(v);
   }
   return v;
 };

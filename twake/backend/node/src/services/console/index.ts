@@ -1,10 +1,13 @@
 import { DatabaseServiceAPI } from "../../core/platform/services/database/api";
-import { Consumes, TwakeService } from "../../core/platform/framework";
+import { Consumes, Prefix, TwakeService } from "../../core/platform/framework";
 import UserServiceAPI from "../user/api";
 import { ConsoleServiceAPI } from "./api";
 import { getService } from "./service";
 import { ConsoleOptions, ConsoleType } from "./types";
+import web from "./web/index";
+import WebServerAPI from "../../core/platform/services/webserver/provider";
 
+@Prefix("/internal/services/console/v1")
 @Consumes(["user", "database"])
 export default class ConsoleService extends TwakeService<ConsoleServiceAPI> {
   version = "1";
@@ -12,6 +15,8 @@ export default class ConsoleService extends TwakeService<ConsoleServiceAPI> {
   private service: ConsoleServiceAPI;
 
   async doInit(): Promise<this> {
+    const fastify = this.context.getProvider<WebServerAPI>("webserver").getServer();
+
     const type = this.configuration.get<ConsoleType>("type");
     const options: ConsoleOptions = this.configuration.get<ConsoleOptions>(type);
 
@@ -21,6 +26,11 @@ export default class ConsoleService extends TwakeService<ConsoleServiceAPI> {
       type,
       options,
     );
+
+    fastify.register((instance, _opts, next) => {
+      web(instance, { prefix: this.prefix, service: this.service });
+      next();
+    });
 
     return this;
   }

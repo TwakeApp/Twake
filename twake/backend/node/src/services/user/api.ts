@@ -4,7 +4,6 @@ import {
   ExecutionContext,
   ListResult,
   Paginable,
-  Pagination,
 } from "../../core/platform/framework/api/crud-service";
 import { Initializable, TwakeServiceProvider } from "../../core/platform/framework/api";
 import User, { UserPrimaryKey } from "./entities/user";
@@ -30,6 +29,9 @@ export interface UsersServiceAPI
     CRUDService<User, UserPrimaryKey, ExecutionContext> {
   getUserCompanies(pk: UserPrimaryKey): Promise<CompanyUser[]>;
   getByEmails(email: string[]): Promise<User[]>;
+  getByConsoleId(consoleUserId: string): Promise<User>;
+  isEmailAlreadyInUse(email: string): Promise<boolean>;
+  getAvailableUsername(username: string): Promise<string>;
 }
 
 /**
@@ -64,6 +66,7 @@ export interface CompaniesServiceAPI extends TwakeServiceProvider, Initializable
    * @param companyId
    */
   getCompany(companyId: CompanyPrimaryKey): Promise<Company>;
+  getCompanyByCode(code: string): Promise<Company>;
 
   /**
    * Get the companies
@@ -78,18 +81,6 @@ export interface CompaniesServiceAPI extends TwakeServiceProvider, Initializable
    * @param user
    */
   getAllForUser(userId: uuid): Promise<CompanyUser[]>;
-
-  /**
-   * Add a user in a company
-   *
-   * @param company
-   * @param user
-   */
-  addUserInCompany(
-    companyId: CompanyPrimaryKey,
-    userId: UserPrimaryKey,
-    role?: CompanyUserRole,
-  ): Promise<CompanyUser>;
 
   /**
    * Add a user in a company
@@ -120,9 +111,5 @@ export interface CompaniesServiceAPI extends TwakeServiceProvider, Initializable
 
   delete(pk: CompanyPrimaryKey, context?: ExecutionContext): Promise<DeleteResult<Company>>;
 
-  setUserRole(
-    companyPk: CompanyPrimaryKey,
-    userPk: UserPrimaryKey,
-    role: CompanyUserRole,
-  ): Promise<void>;
+  setUserRole(companyId: uuid, userId: uuid, role?: CompanyUserRole): Promise<CompanyUser>;
 }

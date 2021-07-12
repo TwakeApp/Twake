@@ -4,6 +4,8 @@ import { merge } from "lodash";
 import { ConsoleServiceClient } from "../client-interface";
 import {
   ConsoleCompany,
+  ConsoleHookUser,
+  ConsoleOptions,
   ConsoleUser,
   CreateConsoleCompany,
   CreateConsoleUser,
@@ -17,6 +19,7 @@ import { v1 as uuidv1 } from "uuid";
 import { ConsoleServiceAPI } from "../api";
 import User, { getInstance as getUserInstance } from "../../user/entities/user";
 import Company from "../../user/entities/company";
+import { CompanyUserRole } from "../../user/web/types";
 
 export class ConsoleInternalClient implements ConsoleServiceClient {
   version: "1";
@@ -28,9 +31,9 @@ export class ConsoleInternalClient implements ConsoleServiceClient {
     company: ConsoleCompany,
     user: CreateConsoleUser,
   ): Promise<CreatedConsoleUser> {
-    await this.consoleInstance.services.userService.companies.addUserInCompany(
-      { id: company.id },
-      { id: user.id },
+    await this.consoleInstance.services.userService.companies.setUserRole(
+      company.id,
+      user.id,
       user.role,
     );
     return merge(user, { _id: user.id });
@@ -60,5 +63,17 @@ export class ConsoleInternalClient implements ConsoleServiceClient {
     return this.consoleInstance.services.userService.users
       .save(userToCreate)
       .then(result => result.entity);
+  }
+
+  updateLocalCompanyFromConsole(code: string): Promise<Company> {
+    throw new Error("Method should not be implemented.");
+  }
+
+  updateLocalUserFromConsole(
+    consoleUserId: string,
+    company: Company,
+    userDTO: ConsoleHookUser,
+  ): Promise<void> {
+    throw new Error("Method should not be implemented.");
   }
 }

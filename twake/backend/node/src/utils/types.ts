@@ -3,10 +3,10 @@
  */
 
 import {
-  ChannelMember,
   Channel as ChannelEntity,
-  ChannelTab,
+  ChannelMember,
   ChannelPendingEmails,
+  ChannelTab,
 } from "../services/channels/entities";
 import { ChannelParameters } from "../services/channels/web/types";
 import { MessageNotification } from "../services/messages/types";
