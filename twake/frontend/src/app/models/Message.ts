@@ -21,4 +21,9 @@ export type Message = {
   _user_ephemeral?: any;
   _last_modified?: string;
   _user_reaction?: any;
+  subtype?:
+    | null
+    | 'application' //Message from a connector
+    | 'deleted' //Message deleted by user
+    | 'system';
 };

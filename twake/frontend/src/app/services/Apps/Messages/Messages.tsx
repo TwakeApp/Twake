@@ -376,6 +376,8 @@ class Messages extends Observable {
       this.collection.share(parent);
     }
 
+    message.subtype = 'deleted';
+
     this.collection.remove(message, messagesCollectionKey);
   }
 

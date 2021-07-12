@@ -22,7 +22,8 @@ type Props = {
   messageId: string;
   collectionKey: string;
   highlighted?: boolean;
-  style?: any;
+  style?: React.CSSProperties;
+  deleted?: boolean;
   /**
    * Deprecated
    */
@@ -145,6 +146,7 @@ export default class MessageComponent extends Component<Props> {
         >
           <ThreadSection small={linkToThread} message={message} head>
             <MessageContent
+              deleted={this.props.deleted}
               key={message?._last_modified || message?.front_id}
               threadHeader={this.props.threadHeader}
               linkToThread={linkToThread}
@@ -206,20 +208,23 @@ export default class MessageComponent extends Component<Props> {
               </div>
             </ThreadSection>
           )}
-          {!showInput && !this.props.noReplies && !message.parent_message_id && (
-            <ThreadSection compact>
-              <div className="message-content">
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a
-                  href="#"
-                  onClick={() => this.messageEditorService.openEditor(message?.id || '', '')}
-                >
-                  <CornerDownRight size={14} />{' '}
-                  {Languages.t('scenes.apps.messages.message.reply_button')}
-                </a>
-              </div>
-            </ThreadSection>
-          )}
+          {!showInput &&
+            !this.props.deleted &&
+            !this.props.noReplies &&
+            !message.parent_message_id && (
+              <ThreadSection compact>
+                <div className="message-content">
+                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                  <a
+                    href="#"
+                    onClick={() => this.messageEditorService.openEditor(message?.id || '', '')}
+                  >
+                    <CornerDownRight size={14} />{' '}
+                    {Languages.t('scenes.apps.messages.message.reply_button')}
+                  </a>
+                </div>
+              </ThreadSection>
+            )}
         </Thread>
       </DroppableZone>
     );

@@ -2086,4 +2086,7 @@ export default {
   'scenes.apps.drive.new_link_title': 'Nouveau lien',
   'scenes.apps.drive.default_link_name': 'Sans titre',
   'components.emoji_picker.input_search_placeholder': 'Rechercher',
+  'scenes.apps.messages.message.parts.deleted_content.text.current_user':
+    'Vous avez supprimé ce message',
+  'scenes.apps.messages.message.parts.deleted_content.text': '$1 a supprimé son message',
 };

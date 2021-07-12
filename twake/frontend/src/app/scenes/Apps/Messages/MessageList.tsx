@@ -486,6 +486,7 @@ export default class MessagesList extends React.Component<Props, State> {
               followOutput={'smooth'}
               rangeChanged={range => this.onVisibleItemsChanged(range)}
               itemContent={(index: number, message: MessageModel) => {
+                const deleted = message?.subtype === 'deleted' ? true : false;
                 const highlight =
                   !!this.service.hightlight &&
                   !!message.id &&
@@ -508,7 +509,7 @@ export default class MessagesList extends React.Component<Props, State> {
                 if (message?.hidden_data.type === 'init_thread')
                   return (
                     <MessageComponent
-                      noReplies
+                      noReplies={deleted}
                       threadHeader={message?.hidden_data?.thread_id}
                       key={message?.hidden_data?.thread_id}
                       messageId={message?.hidden_data?.thread_id}
@@ -518,6 +519,8 @@ export default class MessagesList extends React.Component<Props, State> {
 
                 return (
                   <Message
+                    deleted={deleted}
+                    noReplies={deleted}
                     key={message.id || message.front_id}
                     messageId={message.id || message.front_id || ''}
                     threadHeader={this.props.threadId}

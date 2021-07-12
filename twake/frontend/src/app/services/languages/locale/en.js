@@ -2006,4 +2006,7 @@ export default {
   'scenes.apps.drive.new_link_title': 'New link',
   'scenes.apps.drive.default_link_name': 'Untitled',
   'components.emoji_picker.input_search_placeholder': 'Search',
+  'scenes.apps.messages.message.parts.deleted_content.text.current_user':
+    'You deleted this message',
+  'scenes.apps.messages.message.parts.deleted_content.text': '$1 deleted his message',
 };

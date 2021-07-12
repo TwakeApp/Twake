@@ -68,11 +68,11 @@ class MessageSystem
 
         $messages = [];
         foreach($response["resources"] as $message){
-            if($message["subtype"] != "deleted" && $message["id"]){
+            if($message["id"]){
                 $messages[] = $this->convertFromNode($message, $channel);
                 if($message["last_replies"]){
                     foreach($message["last_replies"] as $reply){
-                        if($reply["id"] !== $message["id"] && $reply["subtype"] != "deleted")
+                        if($reply["id"] !== $message["id"])
                             $messages[] = $this->convertFromNode($reply, $channel);
                     }
                 }
