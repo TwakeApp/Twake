@@ -100,7 +100,7 @@
     "@types/socket.io-client": "^1.4.34",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
-    "@typescript-eslint/parser": "^4.26.1",
+    "@typescript-eslint/parser": "^4.27.0",
     "anchorme": "1.1.2",
     "animated-scroll-to": "^2.0.12",
     "antd": "^4.16.1",
