@@ -10,6 +10,7 @@ import WorkspacesApps from 'services/workspaces/workspaces_apps.js';
 import MessageEdition from './MessageEdition';
 import Collections from 'app/services/Depreciated/Collections/Collections.js';
 import { Message } from 'app/models/Message';
+import DeletedContent from './DeletedContent';
 
 type Props = {
   message: Message;
@@ -17,6 +18,7 @@ type Props = {
   linkToThread?: boolean;
   edited?: boolean;
   threadHeader?: string;
+  deleted?: boolean;
 };
 
 export default (props: Props) => {
@@ -64,12 +66,14 @@ export default (props: Props) => {
       })}
       onClick={() => setActive(false)}
     >
-      <MessageHeader
-        message={props.message}
-        collectionKey={props.collectionKey}
-        linkToThread={props.linkToThread}
-      />
-      {!!showEdition && (
+      {!props?.deleted && (
+        <MessageHeader
+          message={props.message}
+          collectionKey={props.collectionKey}
+          linkToThread={props.linkToThread}
+        />
+      )}
+      {!!showEdition && !props?.deleted && (
         <div className="content-parent">
           <MessageEdition
             message={props.message}
@@ -81,26 +85,34 @@ export default (props: Props) => {
       )}
       {!showEdition && (
         <div className="content-parent dont-break-out">
-          <Twacode
-            className="content allow_selection"
-            content={MessagesService.prepareContent(
-              props.message.content,
-              props.message.user_specific_content,
-            )}
-            isApp={props.message.message_type === 1}
-            after={
-              props.message.edited &&
-              props.message.message_type === 0 && <div className="edited">(edited)</div>
-            }
-            simple={props.linkToThread}
-            onAction={(type: string, id: string, context: any, passives: any, evt: any) =>
-              onAction(type, id, context, passives, evt)
-            }
-          />
-          <Reactions message={props.message} collectionKey={props.collectionKey} />
+          {props?.deleted === true ? (
+            <div className="content-parent dont-break-out">
+              <DeletedContent userId={props.message.sender || ''} />
+            </div>
+          ) : (
+            <>
+              <Twacode
+                className="content allow_selection"
+                content={MessagesService.prepareContent(
+                  props.message.content,
+                  props.message.user_specific_content,
+                )}
+                isApp={props.message.message_type === 1}
+                after={
+                  props.message.edited &&
+                  props.message.message_type === 0 && <div className="edited">(edited)</div>
+                }
+                simple={props.linkToThread}
+                onAction={(type: string, id: string, context: any, passives: any, evt: any) =>
+                  onAction(type, id, context, passives, evt)
+                }
+              />
+              <Reactions message={props.message} collectionKey={props.collectionKey} />
+            </>
+          )}
         </div>
       )}
-      {!showEdition && (
+      {!showEdition && !props?.deleted && (
         <Options
           message={props.message}
           collectionKey={props.collectionKey}

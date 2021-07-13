@@ -8,7 +8,8 @@ type Props = {
   previousMessageId: string;
   collectionKey: string;
   highlighted?: boolean;
-  style?: any;
+  style?: React.CSSProperties;
+  deleted?: boolean;
   /**
    * Deprecated
    */
@@ -30,6 +31,8 @@ export default React.memo((props: Props) => {
         unreadAfter={props.unreadAfter}
       />
       <Message
+        deleted={props.deleted}
+        noReplies={props.noReplies}
         fake={props.fake}
         repliesAsLink={props.repliesAsLink}
         key="message"

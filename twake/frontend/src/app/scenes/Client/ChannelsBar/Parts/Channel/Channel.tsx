@@ -36,7 +36,7 @@ export default (props: Props) => {
     props.id &&
       MainViewService.select(props.id, {
         collection: props.collection,
-        app: props.app || 'messages',
+        app: props.app || { simple_name: 'messages' },
         context: null,
         hasTabs: props.visibility !== 'direct' && !props.app,
       });

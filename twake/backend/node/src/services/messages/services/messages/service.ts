@@ -255,6 +255,7 @@ export class ThreadMessagesService implements MessageThreadMessagesServiceAPI {
     this.onSaved(message, { created: false }, context);
 
     //Server and application can definively remove a message
+    // FIX ME
     if (context.user.server_request || context.user.application_id || message.application_id) {
       await this.repository.remove(message);
     }

@@ -37,11 +37,9 @@ export default (props: Props) => {
           </div>
           <div className="title">{channel.data.name}</div>
           <div className="text">
-            {Languages.t(
-              'scenes.apps.messages.message.types.first_channel_message_text',
-              [channel.data.name],
-              "This is the first message of the channel",
-            )}
+            {Languages.t('scenes.apps.messages.message.types.first_channel_message_text', [
+              channel.data.name,
+            ])}
           </div>
         </div>
       )}

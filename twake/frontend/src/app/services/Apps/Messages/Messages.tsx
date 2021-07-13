@@ -376,6 +376,8 @@ class Messages extends Observable {
       this.collection.share(parent);
     }
 
+    message.subtype = 'deleted';
+
     this.collection.remove(message, messagesCollectionKey);
   }
 
@@ -471,7 +473,7 @@ class Messages extends Observable {
 
     SideViewService.select(channel.id, {
       collection: this.getCollection(message.channel_id),
-      app: 'messages',
+      app: { simple_name: 'messages' },
       context: {
         viewType: 'channel_thread',
         threadId: id,

@@ -10,7 +10,7 @@ export type ViewTypes =
   | '';
 
 export type ViewConfiguration = {
-  app?: any; //In depreciated app is used
+  app?: { [key: string]: any }; //In depreciated app is used
   collection?: any;
   context:
     | {
@@ -23,7 +23,7 @@ export type ViewConfiguration = {
 };
 
 const defaultConfiguration: ViewConfiguration = {
-  app: 'messages',
+  app: { simple_name: 'messages' },
   collection: null,
   context: null,
   hasTabs: false,

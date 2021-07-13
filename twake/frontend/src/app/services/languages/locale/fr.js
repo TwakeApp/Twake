@@ -1663,7 +1663,7 @@ export default {
   'scenes.apps.messages.message.show_responses_button': 'Afficher toutes les réponses',
   'scenes.apps.messages.message.starred': 'Étoilé',
   'scenes.apps.messages.message.types.first_channel_message_text':
-    "C'est le premier message du canal",
+    'Ceci est le premier message de la chaîne',
   'scenes.apps.messages.message.types.first_message_text': "C'est le premier message",
   'scenes.apps.messages.messageslist.connected_to': 'Connecté à : ',
   'scenes.apps.messages.messageslist.current_visible_id': 'Identifiant actuel visible : ',
@@ -2086,4 +2086,7 @@ export default {
   'scenes.apps.drive.new_link_title': 'Nouveau lien',
   'scenes.apps.drive.default_link_name': 'Sans titre',
   'components.emoji_picker.input_search_placeholder': 'Rechercher',
+  'scenes.apps.messages.message.parts.deleted_content.text.current_user':
+    'Vous avez supprimé ce message',
+  'scenes.apps.messages.message.parts.deleted_content.text': '$1 a supprimé son message',
 };

@@ -28,18 +28,19 @@ const MainContent: FC<{}> = () => {
             <Tabs key={mainId} />
           </Layout.Header>
         )}
-        <Layout style={{ height: '100%' }}>
+        <Layout style={{ height: '100%' }} hasSider>
           <Layout.Content>
             <Layout className="main-view-layout">
               <Layout.Content className="main-view-content">
                 {mainType !== '' && (
                   <AppView key={mainId} id={mainId} viewService={MainViewService} />
                 )}
-                {mainType == '' && <NoApp />}
+                {mainType === '' && <NoApp />}
               </Layout.Content>
             </Layout>
           </Layout.Content>
           <Layout.Sider
+            trigger={null}
             className="global-side-view"
             breakpoint="lg"
             collapsedWidth="0"

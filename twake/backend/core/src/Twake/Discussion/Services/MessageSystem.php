@@ -68,57 +68,16 @@ class MessageSystem
 
         $messages = [];
         foreach($response["resources"] as $message){
-            if($message["subtype"] != "deleted" && $message["id"]){
+            if($message["id"]){
                 $messages[] = $this->convertFromNode($message, $channel);
                 if($message["last_replies"]){
                     foreach($message["last_replies"] as $reply){
-                        if($reply["id"] !== $message["id"] && $reply["subtype"] != "deleted")
+                        if($reply["id"] !== $message["id"])
                             $messages[] = $this->convertFromNode($reply, $channel);
                     }
                 }
             }
         }
-
-        $nonSystemMessages = 0;
-        foreach($messages as $message){
-            if($message["hidden_data"]["type"] === "init_channel" || $message["message_type"] == 0 || $message["message_type"] == 1){
-                $nonSystemMessages++;
-            }
-        }
-
-        if($nonSystemMessages === 0
-            && count($messages) < abs($limit)
-            && !$options["id"]
-            && !$offset
-            && $limit > 0
-            && !$parent_message_id ){
-
-            if(!$found){
-                $init_message = Array(
-                    "channel_id" => $options["channel_id"],
-                    "hidden_data" => Array("type" => "init_channel"),
-                    "created_at" => 0
-                );
-                $init_message = $this->save($init_message, Array());
-                $messages = array_merge([$init_message], $messages);
-            }
-        }
-
-        //Fix additionnal init channel messages
-        $had_user_message_before = false;
-        $_messages = [];
-        foreach(array_reverse($messages) as $message){
-            if($message["message_type"] == 0){
-                $had_user_message_before = true;
-            }
-            if($message["hidden_data"]["type"] === "init_channel" && $had_user_message_before){
-                //Delete the additional init_channel:
-                //TODO Right now let's don't remove stuff in node
-            }else{
-                $_messages[] = $message;
-            }
-        }
-        $messages = array_reverse($_messages);
 
         return $messages;
     }
